@@ -38,6 +38,8 @@
 <body>
     <h1>Maximale hoogte boven terlet:</h1>
     <p id="max-height"></p>
+    <h1>QNH Pressure:</h1>
+    <p id="qnh-pressure"></p>
 
     <script>
         const qs = 1013.2;
@@ -55,13 +57,16 @@
         })
             .then(response => response.json())
             .then(data => {
+                console.log("Received data:", data);
                 const qnhPressure = data.data[0].barometer.hpa;
                 const correction = (qnhPressure - qs) * 8;
                 const maxHeight = aboveQs + correction - fieldElevation;
                 document.getElementById("max-height").innerText = maxHeight.toFixed(2);
+                document.getElementById("qnh-pressure").innerText = qnhPressure.toFixed(2);
             })
             .catch(error => console.error(error));
     </script>
 </body>
 
 </html>
+
